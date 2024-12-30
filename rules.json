@@ -1,0 +1,8 @@
+{
+    "minimum_length": 20,
+    "maximum_length": 42,
+    "upper_case": false,
+    "lower_case": false,
+    "special_char": false,
+    "numbers": false
+}
