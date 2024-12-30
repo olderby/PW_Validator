@@ -26,3 +26,10 @@ From the command line:
     Enter your Password: passworddogName23&&
 
     Passowrd Accepted
+
+
+## Change Log
+    v0.0.1 Added rules.json file to configure validation rules. Adjusted validation rules for more validation criteria
+    * pending adding disallowed patterns list and dictionary words via rules.json
+    * writing tests for validation rules, rules.json configuration edge cases
+    * Create pull request on my own self for self review (because I can)
