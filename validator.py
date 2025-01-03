@@ -46,12 +46,23 @@ def validate_special(password):
     else:
         return False
 
-# read rules from JSON config file
-def read_config():
-    config_file = open("rules.json", "rt")
-    config = json.loads(config_file.read())
-    return config
+# validate password against known rainbow lists pattern matching using regex
+def validate_rainbow(password, blacklist):
+    for each in blacklist:
+        if re.search(each, password):
+            return False
+        else:
+            return True
 
+# read rules from JSON config file
+def read_config(file_name):
+    try:
+        with open(file_name, "r") as config_file:
+            return json.load(config_file)
+    except FileNotFoundError:
+        raise Exception(f"Config file {file_name} not found.")
+    except json.JSONDecodeError:
+        raise Exception("Malformed JSON in config file.")
 
 
 # run all validation tests
@@ -70,13 +81,15 @@ def full_test(password, config_rules):
         print("\nPassword must contain a numeric digit")
         valid = False
     if validate_special(password) == False and config_rules["special_char"]:
-        print("Password must contain a special character")
+        print("\nPassword must contain a special character")
         valid = False
+    if config_rules["pattern_check"]:
+        valid = validate_rainbow(password, config_rules["blacklist"])
+        print("\nPassword is commonly used")
     #If the password is still valid show that it was accepted
     if valid:
         print("\nPassowrd Accepted")
 
-config_rules = read_config()
+config_rules = read_config("rules.json")
 
 full_test(input("Enter your Password: "), config_rules)
-
