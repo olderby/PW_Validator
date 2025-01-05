@@ -1,0 +1,10 @@
+{
+    "minimum_length": 7,
+    "maximum_length": 42,
+    "upper_case": false,
+    "lower_case": true,
+    "special_char": false,
+    "numbers": true,
+    "pattern_check": false,
+    "blacklist": ["andrew","tigger","sunshine","iloveyou"]
+}
