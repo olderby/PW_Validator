@@ -3,19 +3,16 @@ import unittest
 import os
 
 #test fixture mock configuration data to be used then cleaned up after
-def make_file(test_file_name):
+def setUp(self):
+    make_file("test_rules.json")
+
+def tearDown(self):
+    close_file("test_rules.json")
+
+def make_file(test_file_name, test_case):
     file = open(test_file_name, "x")
-    if test_file_name: #is not blank
-        file.write('''{
-                        "minimum_length": 7,
-                        "maximum_length": 42,
-                        "upper_case": false,
-                        "lower_case": true,
-                        "special_char": false,
-                        "numbers": true,
-                        "pattern_check": false,
-                        "blacklist": ["andrew","tigger","sunshine","iloveyou"]
-                    }''')
+    file.write(test_case)
+
 
 def close_file(test_file_name):
     try:
@@ -24,14 +21,22 @@ def close_file(test_file_name):
     except FileExistsError as e:
         print(f"The file does not exist: {e}")
 
-make_file("test_rules.json")
-
 
 class TestValidatorMethods(unittest.TestCase):
     
     # test case: does the program correctly load rules when the configuration file is valid?
     def validate_config_accuracy(self):
-        config = validator.read_config("test_rules.json")
+        test_case = '''{
+                        "minimum_length": 7,
+                        "maximum_length": 42,
+                        "upper_case": false,
+                        "lower_case": true,
+                        "special_char": false,
+                        "numbers": true,
+                        "pattern_check": false,
+                        "blacklist": ["andrew","tigger","sunshine","iloveyou"]
+                    }'''
+        config = validator.read_config("test_rules.json", test_case)
         self.assertEqual(config['minimum_length'], 7)
         self.assertEqual(config['maximum_length'], 42)
         self.assertFalse(config["upper_case"])
@@ -45,7 +50,13 @@ class TestValidatorMethods(unittest.TestCase):
 
 #tests for missing configurations
     def validate_missing_config(self):
+        test_case = ''
+        try:
+            config = validator.read_config("",test_case)
+        except FileNotFoundError as e:
+            print(f"File Error: {e}")
 
+        self.assertTrue(config, config)
 
 #tests for configurations that have no value paired
 
