@@ -13,6 +13,12 @@ navigate to your project folder
 From the command line:
     'git clone https://github.com/olderby/PW_Validator.git'
 
+testing:
+run tests from root using unittest
+    `pythonX -m unittest discover -s tests`
+
+[I know these tests aren't fully working will fix shortly.]: #
+
 ## Examples
 
 #### Accepted passowrd
