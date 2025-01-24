@@ -3,11 +3,11 @@ import unittest
 import os
 
 #test fixture mock configuration data to be used then cleaned up after
-def setUp(self):
-    make_file("test_rules.json")
+def setUp(self, file):
+    make_file(file)
 
-def tearDown(self):
-    close_file("test_rules.json")
+def tearDown(self, file):
+    close_file(file)
 
 def make_file(test_file_name):
     file = open(test_file_name, "x")
@@ -27,7 +27,7 @@ class TestValidatorMethods(unittest.TestCase):
     
     # test case: does the program correctly load rules when the configuration file is valid?
     def validate_config_accuracy(self):
-        config = validator.read_config("test_rules.json", test_case)
+        config = validator.read_config("test_rules.json")
         self.assertEqual(config['minimum_length'], 7)
         self.assertEqual(config['maximum_length'], 42)
         self.assertFalse(config["upper_case"])
@@ -37,9 +37,16 @@ class TestValidatorMethods(unittest.TestCase):
         self.assertFalse(config['pattern_check'])
         self.assertEquals(config['blacklist'], ['andrew', 'trigger', 'sunshine', 'iloveyou'])
 
+    #tests for malformed configuration file
+    # test case: does the program handle malformed json gracefully?
+    def validate_malformedjson_handling(self):
+        try:
+            config = validator.read_config("malformed_rules.json")
+        except EOFError as e:
+            print(f"Configuration file error: {e}")
 
-
-#tests for missing configurations
+    #tests for configurations that have no value paired
+    #tests for missing configurations
     def validate_missing_config(self):
         test_case = ''
         try:
@@ -48,10 +55,6 @@ class TestValidatorMethods(unittest.TestCase):
             print(f"File Error: {e}")
 
         self.assertTrue(config, config)
-
-#tests for configurations that have no value paired
-
-#tests for malformed configuration file
 
 close_file("test_rules.json")
 
