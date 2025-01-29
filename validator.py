@@ -90,6 +90,7 @@ def full_test(password, config_rules):
     if valid:
         print("\nPassowrd Accepted")
 
-config_rules = read_config("rules.json")
 
-full_test(input("Enter your Password: "), config_rules)
+if __name__ == '__main__':
+    config_rules = read_config("rules.json")
+    full_test(input("Enter your Password: "), config_rules)

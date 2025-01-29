@@ -42,3 +42,7 @@ run tests from root using unittest
             more tests for missing attributes, missing keys, malformed attributes
             put file clean up in dedicated tearDown() method and use error handling
     * Create pull request on my own self for self review (because I can)
+
+## TODO:
+1. Implement Graceful handling of malformed json files, even for test cases
+2. Implement password and salt storage in secure (encrypted) file
